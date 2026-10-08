@@ -1,0 +1,440 @@
+"""
+Если вы при разработке своего плагина использовали готовые фрагменты кода из моего, пожалуйста,
+укажите в описании своего плагина @zwylair в качестве благодарности за вклад в разработку. Спасибо ♥
+
+If you used code snippets from my plugin in the development of your own, please credit @zwylair
+in your plugin’s description as a thank you for the contribution. Thanks ♥
+
+
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣤⣤⣀⠀⠀⠀⠀⣀⣠⣤⣤⣤⣄⡀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⠿⠛⠛⠛⠛⠛⢿⣷⣤⣾⠿⠛⠛⠙⠛⠛⠿⠗
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⡿⠁⠀⠀⠀⠀⠀⠀⠀⠙⡿⠁⠀⠀⠀⢀⣤⣀⠀⠀⢀⣤⣶⡆
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⡇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⣿⣿⣧⣄
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⠀⣿⣷⣄⣀⣤⡄⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⠷
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣁⣤⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠘⠛⠛⠛⠻⣿⣿⣿⠋⠉⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠻⢿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠹⣿⡟⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⠟⢙⠛⠛⠀⠀⠀⠀⠀⠀⣀⣴⡿⠓⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠀⠈⠻⢿⣦⣄⠀⣠⣾⡿⠋⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⠿⠋⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀
+"""
+import lzma
+import base64
+import random
+import asyncio
+from dataclasses import dataclass
+from typing import Any, List, Optional
+
+from base_plugin import BasePlugin, MenuItemData, MenuItemType
+from client_utils import get_messages_controller, get_send_messages_helper, get_user_config, run_on_queue, get_last_fragment
+from android_utils import run_on_ui_thread
+from ui.alert import AlertDialogBuilder
+from ui.bulletin import BulletinHelper
+
+from java import jclass
+from java.nio import ByteBuffer
+from java.util import ArrayList
+
+from android.os import Build
+from dalvik.system import InMemoryDexClassLoader
+
+from org.telegram.tgnet import TLRPC
+from org.telegram.messenger import MessageObject, ApplicationLoader
+
+__name__ = "NoForwardLimit"
+__description__ = (
+    "Removes the limit of 100 forward and delete messages.\n\n"
+    "> Requires **[ZwyLib](https://t.me/zwyPlugins/48)** v2.0.6 or greater!"
+)
+__icon__ = "zwyPluginsIcons/6"
+__id__ = "zwyNoForwardLimit"
+__version__ = "2.0.2"
+__author__ = "@zwylair"
+__min_version__ = "12.5.1"
+
+REQUIRED_ZWYLIB_VERSION = "2.0.6"
+
+try:
+    import zwylib
+
+    if (
+            not hasattr(zwylib, "is_zwylib_version_sufficient")
+            or not zwylib.is_zwylib_version_sufficient(__name__, REQUIRED_ZWYLIB_VERSION, notify=False)
+    ):
+        raise Exception("!!!")
+
+    from zwylib import Requests, UI, DialogPicker, HookUtils
+except Exception as _e:
+    class RecursiveMock:
+        def __call__(self, *args, **kwargs): return self
+        def __getattr__(self, _): return self
+        def __getitem__(self, _): return self
+        def __iter__(self): return iter([])
+        def __str__(self): return ""
+        def __repr__(self): return ""
+        def __bool__(self): return False
+        def __mro_entries__(self, bases): return ()
+
+    zwylib = RecursiveMock()
+
+    l = {
+        "en": {
+            "exc_text": "ZwyLib plugin required for this plugin is not found!",
+            "not_sufficient_zwylib": f"{__name__} requires {REQUIRED_ZWYLIB_VERSION}+ version of ZwyLib!",
+            "download": "Install",
+        },
+        "ru": {
+            "exc_text": "Для корректной работы требуется плагин ZwyLib!",
+            "not_sufficient_zwylib": f"Для работы {__name__} требуется {REQUIRED_ZWYLIB_VERSION}+ версия ZwyLib!",
+            "download": "Установить",
+        },
+        "uk": {
+            "exc_text": "Для коректної роботи потрібен плагін ZwyLib!",
+            "not_sufficient_zwylib": f"Для роботи {__name__} потрібна {REQUIRED_ZWYLIB_VERSION}+ версія ZwyLib!",
+            "download": "Встановити",
+        },
+    }
+    l_dict = l.get(
+        jclass("org.telegram.messenger.LocaleController").getInstance().getCurrentLocaleInfo().pluralLangCode,
+        l.get("en")
+    )
+    err_text = f"{__name__}: " + l_dict["not_sufficient_zwylib" if "!!!" in str(_e) else "exc_text"]
+
+    def force_stop():
+        BulletinHelper.show_with_button(
+            err_text, jclass("org.telegram.messenger.R").raw.error, l_dict["download"],
+            on_click=lambda: get_last_fragment().presentFragment(
+                jclass("org.telegram.ui.ChatActivity").of(-2521243181, 48)
+            )
+        )
+
+        p = jclass("com.exteragram.messenger.plugins.PluginsController").getInstance().plugins.get(__id__)
+        p.setError(jclass("java.lang.Exception")(err_text))
+        p.setEnabled(False)
+
+    class EmptyPlugin(BasePlugin):
+        pass
+
+    run_on_queue(force_stop, delay=50)
+
+
+def split_list_into_chunks(lst: List[int], chunk_size: int) -> List[List[int]]:
+    return [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]
+
+
+def delete_messages_hook(param):
+    first_msg_array = param.args[0]
+    second_msg_array = param.args[1]
+
+    if first_msg_array.size() > 0:
+        msgs = first_msg_array
+        selected_msg_array_arg_index = 0
+    else:
+        msgs = second_msg_array
+        selected_msg_array_arg_index = 1
+
+    messages = zwylib.arraylist_to_list(msgs)
+    if len(messages) <= CHUNK_SIZE:
+        return
+
+    message_ids_chunks: List[List[int]] = split_list_into_chunks(messages, CHUNK_SIZE)
+    last_chunk_index = len(message_ids_chunks) - 1
+
+    for index, chunk in enumerate(message_ids_chunks):
+        param.args[selected_msg_array_arg_index] = zwylib.iterable_to_arraylist(chunk)
+        if index < last_chunk_index:
+            param.method.invoke(param.thisObject, param.args)
+
+
+@dataclass
+class ForwardCache:
+    selected_account: Optional[int] = None
+    thread_message: Optional[MessageObject] = None
+    send_mono_forum_peer_id: Optional[int] = None
+    send_message_suggestion_params: Optional[Any] = None
+    send_messages_helper: Optional[Any] = None
+
+    def clear(self):
+        self.selected_account = None
+        self.thread_message = None
+        self.send_mono_forum_peer_id = None
+        self.send_message_suggestion_params = None
+        self.send_messages_helper = None
+
+
+async def show_chat_forward_popup(ctx):
+    chat_id: int = -ctx.get("dialog_id")
+    topic_id: int = get_last_fragment().getTopicId()
+
+    try:
+        response = await Requests.search_messages(-chat_id, limit=1, top_msg_id=topic_id)
+    except Exception:
+        show_general_error(exc=True)
+        return
+
+    messages_count = response.count
+    if topic_id != 0:
+        messages_count -= 1  # do not count topic creation message
+
+    def proceed(noquote: bool):
+        run_async(start_chat_forward(ctx, response.count, noquote))
+
+    run_on_ui_thread(UI.AlertDialog(
+        title=L.forward_all_popup_title,
+        text=L.forward_all_popup_text(count=messages_count),
+        buttons=[
+            UI.AlertButton(L.confirm, lambda _, __: proceed(noquote=False)),
+            UI.AlertButton(L.noquote, lambda _, __: proceed(noquote=True), type=AlertDialogBuilder.BUTTON_NEUTRAL),
+            UI.AlertButton(L.close, type=AlertDialogBuilder.BUTTON_NEGATIVE),
+        ]
+    ).show)
+
+
+async def start_chat_forward(ctx, total_msg_count: int, noquote: bool):
+    chat_activity = get_last_fragment()
+    loop = zwylib.async_manager.loop
+
+    try:
+        picked = await DialogPicker.pick_chat()
+    except Exception as e:
+        if not "cancelled" in str(e).lower():
+            show_general_error(exc=True)
+        return
+
+    def forward_messages(future: asyncio.Future, messages: ArrayList, cache: ForwardCache):
+        cache.send_messages_helper.sendMessage(
+            zwylib.iterable_to_arraylist(messages),  # arrayList
+            -picked.dialog_id,  # dialog_id (peer_id)
+            noquote,  # fromMyName (hideSenderName)
+            False,  # hideCaption
+            True,  # notify
+            0,  # scheduleDate
+            0,
+            cache.thread_message,
+            -1,
+            0,  # payStars
+            cache.send_mono_forum_peer_id,
+            cache.send_message_suggestion_params
+        )
+
+        if not future.done():
+            loop.call_soon_threadsafe(future.set_result, None)
+
+    async def worker(sheet: UI.BottomSheet):
+        chat_id: int = -ctx.get("dialog_id")
+        top_msg_id = chat_activity.getTopicId()
+        cache = ForwardCache(
+            selected_account=get_user_config().selectedAccount,
+            thread_message=chat_activity.getThreadMessage(),
+            send_mono_forum_peer_id=chat_activity.getSendMonoForumPeerId(),
+            send_message_suggestion_params=chat_activity.getSendMessageSuggestionParams(),
+            send_messages_helper=get_send_messages_helper(),
+        )
+
+        offset_id = 0
+        forwarded_count = 0
+        current_count = 100
+
+        try:
+            while current_count == 100 and not sheet.dissmissed:
+                response = await Requests.search_messages(-chat_id, limit=100, offset_id=offset_id, top_msg_id=top_msg_id)
+                messages = getattr(response, "messages", None)
+
+                if not messages or messages.isEmpty():
+                    break
+
+                message_ids = []
+                message_objects = []
+
+                for msg in zwylib.arraylist_to_list(messages):
+                    message_ids.append(msg.id)
+
+                    msg_obj = MessageObject(cache.selected_account, msg, False, False)
+                    if msg_obj.canForwardMessage() and not isinstance(msg, TLRPC.TL_messageService):
+                        message_objects.append(msg_obj)
+
+                current_count = len(message_ids)
+                min_id = min(message_ids)
+                offset_id = min_id
+
+                future = loop.create_future()
+                run_on_ui_thread(lambda: forward_messages(future, message_objects, cache))
+                await future
+
+                forwarded_count += current_count
+                progress = forwarded_count / total_msg_count
+                sheet.update_status(progress, L.forward_all_sheet_desc(current=forwarded_count, total=total_msg_count))
+
+                sleep_time = random.uniform(2, 5) if not forwarded_count == total_msg_count else 1
+                await asyncio.sleep(sleep_time)
+
+            run_on_ui_thread(
+                lambda: bulletin.show_success(L.forward_all_success_bulletin(count=forwarded_count)),
+                delay=50
+            )
+        except Exception:
+            logger.error("An error occurred:", exc_info=True)
+            show_general_error(exc=True)
+        finally:
+            sheet.finish()
+            cache.clear()
+
+    def show_sheet():
+        sheet = UI.BottomSheet(L.forward_all_sheet_title, "..", random.choice(stickers), worker)
+        sheet.show()
+        sheet.start_worker()
+
+    run_on_ui_thread(show_sheet)
+
+
+def show_general_error(text_to_log: Optional[str] = None, exc=False):
+    object_to_log = text_to_log if not exc else zwylib.format_exc()
+    logger.error("An error occurred:", object_to_log)
+    bulletin.show_error_with_copy(L.general_error, object_to_log)
+
+
+class DexLoader:
+    def __init__(self):
+        self.java_class = None
+
+    def inject(self) -> bool:
+        if Build.VERSION.SDK_INT < Build.VERSION_CODES.O:
+            logger.error("InMemoryDexClassLoader requires Android 8.0 or greater.")
+            bulletin.show_error(L.dex_not_supported)
+            return False
+
+        ctx = ApplicationLoader.applicationContext
+        compressed_dex_bytes = base64.b64decode(DEX_BASE64.strip())
+
+        try:
+            dex_bytes = lzma.decompress(compressed_dex_bytes)
+        except Exception:
+            logger.error("Failed to decompress DEX with LZMA:", exc_info=True)
+            return False
+
+        try:
+            buffer = ByteBuffer.wrap(dex_bytes)
+            class_loader = InMemoryDexClassLoader(buffer, ctx.getClassLoader())
+
+            self.java_class = class_loader.loadClass("org.zwylair.nfldex.PluginCore")
+            self.java_class.getDeclaredMethod(
+                "init",
+                jclass("android.content.Context"),
+                jclass("java.lang.String"),
+            ).invoke(None, ctx, __id__)
+
+            logger.info("DEX loaded successfully.")
+            return True
+        except Exception:
+            logger.warning("InMemoryDexClassLoader load failed:", exc_info=True)
+            return False
+
+
+stickers = [
+    "yuexinmiao_one/29",
+    "ZwySticks_by_fStikBot/114",
+    "potnieyaicasticker/10",
+    "potnieyaicasticker/77",
+    "potnieyaicasticker/114",
+    "potnieyaicasticker/117",
+    "Tlipoca_by_botireina_bot/2",
+    "SuzumeEmoteLab/39",
+    "OtagatO_by_fStikBot/16",
+    "chillendons/109",
+    "lidreron/75",
+    "UnfortunateBlushReptile_by_fStikBot/13",
+    "UnfortunateBlushReptile_by_fStikBot/21",
+    "Lilpussi2004/12",
+    "pk_3064062_by_Ctikerubot/17",
+]
+AUTOUPDATE_CHANNEL_ID = 2521243181
+AUTOUPDATE_MSG_ID = 53
+DEX_BASE64 = "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"
+CHUNK_SIZE = 100
+L = zwylib.locales_controller.generate_locale_class({
+    "en": {
+        "general_error": "An error occurred. Send copied info to @zwylair.",
+        "forward_all_menu": "Forward all messages",
+        "forward_all_popup_title": "Forward all messages",
+        "forward_all_popup_text": "Are you sure you want to forward all {count} messages from this chat? This may take some time.",
+        "forward_all_sheet_title": "Forwarding messages",
+        "forward_all_sheet_desc": "Processed: {current}/{total}",
+        "forward_all_success_bulletin": "Successfully forwarded {count} messages!",
+        "confirm": "Confirm",
+        "close": "Close",
+        "noquote": "No Quote",
+        "dex_not_supported": "Android 8.0+ is required! Main plugin's features are disabled.",
+    },
+    "ru": {
+        "general_error": "Произошла ошибка. Отправьте скопированную инфу @zwylair.",
+        "forward_all_menu": "Переслать весь чат",
+        "forward_all_popup_title": "Пересылка всех сообщений",
+        "forward_all_popup_text": "Вы уверены, что хотите переслать все сообщения ({count} шт.) из этого чата? Это может занять некоторое время.",
+        "forward_all_sheet_title": "Пересылка сообщений",
+        "forward_all_sheet_desc": "Обработано: {current}/{total}",
+        "forward_all_success_bulletin": "Успешно переслано сообщений: {count}!",
+        "confirm": "Подтвердить",
+        "close": "Закрыть",
+        "noquote": "Без автора",
+        "dex_not_supported": "Требуется Android 8.0 или выше! Функционал плагина недоступен.",
+    },
+    "uk": {
+        "general_error": "Виникла помилка. Відправте скопійовану інфу @zwylair.",
+        "forward_all_menu": "Переслати весь чат",
+        "forward_all_popup_title": "Пересилка всіх повідомлень",
+        "forward_all_popup_text": "Ви впевнені, що хочете переслати всі повідомлення ({count} шт.) з цього чату? Це може зайняти деякий час.",
+        "forward_all_sheet_title": "Пересилка повідомлень",
+        "forward_all_sheet_desc": "Оброблено: {current}/{total}",
+        "forward_all_success_bulletin": "Успішно переслано {count} повідомлень!",
+        "confirm": "Підтвердити",
+        "close": "Закрити",
+        "noquote": "Без автора",
+        "dex_not_supported": "Потрібен Android 8.0 чи вище! Функціонал плагіна недоступний.",
+    },
+})
+
+logger = zwylib.build_log(__name__)
+bulletin = zwylib.build_bulletin_helper()
+run_async = zwylib.async_manager.run_task
+dex_loader = DexLoader()
+
+
+class NoForwardLimit(BasePlugin):
+    def on_plugin_load(self):
+        zwylib.add_autoupdater_task(AUTOUPDATE_CHANNEL_ID, AUTOUPDATE_MSG_ID)
+
+        self.add_on_send_message_hook()
+        self.add_hook("TL_messages_forwardMessages")
+
+        method = HookUtils.find_max_args_method(get_messages_controller().getClass(), "deleteMessages")
+        HookUtils.hook_before(method, delete_messages_hook)
+
+        self.add_menu_item(MenuItemData(
+            menu_type=MenuItemType.CHAT_ACTION_MENU,
+            text=L.forward_all_menu,
+            icon="msg_forward",
+            on_click=lambda ctx: run_async(show_chat_forward_popup(ctx))
+        ))
+
+        if not dex_loader.inject():
+            raise Exception("Failed to load dex module.")
+
+        logger.info("Loaded.")
+
+    def on_plugin_unload(self):
+        if dex_loader.java_class:
+            try:
+                dex_loader.java_class.getDeclaredMethod("unload").invoke(None)
+            except Exception:
+                logger.error("Dex unload error:", exc_info=True)
+            finally:
+                dex_loader.java_class = None
+        logger.info("Unloaded.")
+
+    def pre_request_hook(self, req_name, account, req):
+        if req_name == "TL_messages_forwardMessages" and dex_loader.java_class:
+            try:
+                dex_loader.java_class.getDeclaredMethod("clearSelectorStorage").invoke(None)
+            except Exception:
+                logger.error("Failed to clear storage:", exc_info=True)

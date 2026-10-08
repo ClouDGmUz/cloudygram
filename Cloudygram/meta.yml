@@ -1,0 +1,11 @@
+name: Cloudygram
+description: "{plugin_description}\n\n[Channel](https://t.me/cloudyextera)"
+id: cloudygram
+version: "1.2.0"
+author: "@cloudgmuz"
+app_version: ">=12.5.1"
+sdk_version: ">=1.4.4.3"
+elyx_version: ">=0.9.2b"
+icon: exteraPlugins/1
+requires:
+  cloudylib: https://t.me/cloudyextera/5

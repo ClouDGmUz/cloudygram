@@ -1,0 +1,76 @@
+plugin_description: "Cloudygram feature pack. Bundles CompactBottomNav (@YouRooni), @zwylair's EndlessFoldersScroll, UserInfoSaver, AdminTools, NoForwardLimit, and @anivplugins' Recent Actions+."
+loaded: Cloudygram loaded
+greeting: "Hello, {name}!"
+settings_title: Greeting
+name_label: Name
+name_hint: Who should be greeted?
+compact_nav_title: Compact bottom nav
+compact_nav_folder_hint: Compact navigation bar options
+compact_nav_enabled: Enable compact bottom nav
+compact_nav_enabled_hint: No labels under the navigation bar, with Glass support
+compact_nav_hide_labels: Hide labels
+compact_nav_hide_labels_hint: Remove section names
+compact_nav_add_search_button: Search button
+compact_nav_add_search_button_hint: Floating search button next to the bar (Glass style)
+compact_nav_actionbar_title: Top bar (ActionBar)
+compact_nav_hide_actionbar_search: Hide header search
+compact_nav_hide_actionbar_search_hint: Hide the search button from the top bar
+compact_nav_credit: "Compact bottom nav by @YouRooni"
+compact_nav_credit_hint: Original module author
+features_title: Features
+features_hint: Enable and configure bundled features
+feature_configure_hint: Tap to configure
+feature_enable: Enable feature
+feature_reload_note: Reload the plugin to apply the change
+feature_credit: Original code by
+feature_endless_folders: Endless folders scroll
+feature_user_info_saver: User info saver
+feature_recent_actions_plus: Recent Actions+
+feature_admin_tools: Admin tools
+feature_no_forward_limit: No forward limit
+cloudylib_missing: CloudyLib is not installed
+cloudylib_missing_hint: Install CloudyLib from the channel to enable the bundled features
+cloudylib_missing_short: CloudyLib required - install from the channel
+cloudylib_outdated: CloudyLib is outdated
+cloudylib_outdated_hint: "Update CloudyLib to {version}+ to enable all features"
+about_title: About
+about_developer: Developer
+about_channel: Channel
+feature_ghost_mode: Ghost mode
+feature_chat_ids: Copy IDs
+ghost_title: Ghost mode
+ghost_no_typing: Don't send typing
+ghost_no_typing_hint: Hide the "typing..." status from others
+ghost_always_offline: Always appear offline
+ghost_always_offline_hint: Stay offline while reading and using the app
+ids_title: Copy IDs
+ids_hint: Copy IDs from menus
+ids_hint_sub: Adds copy actions to chat, message and profile menus
+ids_copy_chat: Copy chat ID
+ids_copy_message: Copy message ID
+ids_copy_user: Copy user ID
+feature_read_receipts: Read receipts
+feature_copy_link: Copy message link
+feature_anti_delete: Anti-delete
+feature_auto_delete: Auto-delete
+feature_chat_export: Export chat
+read_receipts_title: Read receipts
+hide_read_receipts: Don't send read receipts
+hide_read_receipts_hint: Mark messages locally without notifying the sender
+copy_link_title: Copy message link
+copy_link_hint: Adds a "Copy link" action to the message menu
+anti_delete_title: Anti-delete
+anti_delete_enabled: Keep deleted messages
+anti_delete_hint: Saves the text of deleted messages to cloudygram_exports/deleted.txt
+anti_delete_saved: Deleted message saved
+auto_delete_title: Auto-delete
+auto_delete_enabled: Auto-delete sent messages
+auto_delete_hint: Sent messages will self-destruct after the delay below
+auto_delete_seconds: Delay (seconds)
+auto_delete_seconds_hint: Time before a sent message is deleted
+chat_export_title: Export chat
+chat_export_action: Export chat
+chat_export_started: Exporting chat messages...
+chat_export_done: Export saved (path copied)
+chat_export_limit: Message limit
+chat_export_limit_hint: How many recent messages to export

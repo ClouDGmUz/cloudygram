@@ -1,0 +1,7 @@
+.venv/
+.venv311/
+builds/
+.elyx/
+**/.elyxbuilder/cache/
+**/__pycache__/
+*.pyc

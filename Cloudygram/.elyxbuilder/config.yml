@@ -1,0 +1,16 @@
+zipFormat: eaf
+source: Cloudygram/src
+buildNameUncompiled: '{name}-{version}'
+buildNameCompiled: '{name}-{version}-3.11'
+ignoreAll:
+- Cloudygram/.elyxbuilder/cache/*
+compilationIgnore:
+- Cloudygram/src/main.py
+obfuscationConfig:
+  stripDocstrings: true
+  removeLogs: true
+  renameLocals: true
+  encodeStrings: true
+  encodeNumbers: true
+  zlibCompression: false
+  saveMapping: true

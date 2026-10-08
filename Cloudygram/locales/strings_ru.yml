@@ -1,0 +1,76 @@
+plugin_description: "Набор функций Cloudygram. Включает CompactBottomNav (@YouRooni), плагины @zwylair (EndlessFoldersScroll, UserInfoSaver, AdminTools, NoForwardLimit) и Recent Actions+ от @anivplugins."
+loaded: Cloudygram загружен
+greeting: "Привет, {name}!"
+settings_title: Приветствие
+name_label: Имя
+name_hint: Кого нужно поприветствовать?
+compact_nav_title: Нижняя панель
+compact_nav_folder_hint: Параметры компактной панели навигации
+compact_nav_enabled: Включить компактную нижнюю панель
+compact_nav_enabled_hint: Без подписей под панелью навигации, с поддержкой Glass
+compact_nav_hide_labels: Скрыть подписи
+compact_nav_hide_labels_hint: Убрать названия разделов
+compact_nav_add_search_button: Кнопка поиска
+compact_nav_add_search_button_hint: Плавающая кнопка поиска рядом с панелью (в стиле Glass)
+compact_nav_actionbar_title: Верхняя панель (ActionBar)
+compact_nav_hide_actionbar_search: Скрыть поиск в шапке
+compact_nav_hide_actionbar_search_hint: Скрыть кнопку поиска из верхней панели
+compact_nav_credit: "Компактная нижняя панель от @YouRooni"
+compact_nav_credit_hint: Автор оригинального модуля
+features_title: Функции
+features_hint: Включение и настройка встроенных функций
+feature_configure_hint: Нажмите, чтобы настроить
+feature_enable: Включить функцию
+feature_reload_note: Перезагрузите плагин, чтобы применить изменения
+feature_credit: Оригинальный код от
+feature_endless_folders: Бесконечная прокрутка папок
+feature_user_info_saver: Сохранение информации о пользователе
+feature_recent_actions_plus: Recent Actions+
+feature_admin_tools: Админ-инструменты
+feature_no_forward_limit: Снятие лимита пересылки
+cloudylib_missing: CloudyLib не установлен
+cloudylib_missing_hint: Установите CloudyLib из канала, чтобы включить встроенные функции
+cloudylib_missing_short: Требуется CloudyLib - установите из канала
+cloudylib_outdated: CloudyLib устарел
+cloudylib_outdated_hint: "Обновите CloudyLib до {version}+ для работы всех функций"
+about_title: О плагине
+about_developer: Разработчик
+about_channel: Канал
+feature_ghost_mode: Режим призрака
+feature_chat_ids: Копирование ID
+ghost_title: Режим призрака
+ghost_no_typing: Не отправлять статус набора
+ghost_no_typing_hint: Скрыть статус "печатает..." от других
+ghost_always_offline: Всегда офлайн
+ghost_always_offline_hint: Оставаться офлайн при чтении и использовании приложения
+ids_title: Копирование ID
+ids_hint: Копирование ID из меню
+ids_hint_sub: Добавляет действия копирования в меню чата, сообщения и профиля
+ids_copy_chat: Скопировать ID чата
+ids_copy_message: Скопировать ID сообщения
+ids_copy_user: Скопировать ID пользователя
+feature_read_receipts: Отчёты о прочтении
+feature_copy_link: Копировать ссылку на сообщение
+feature_anti_delete: Антиудаление
+feature_auto_delete: Автоудаление
+feature_chat_export: Экспорт чата
+read_receipts_title: Отчёты о прочтении
+hide_read_receipts: Не отправлять отчёты о прочтении
+hide_read_receipts_hint: Отмечать сообщения локально, не уведомляя отправителя
+copy_link_title: Копировать ссылку на сообщение
+copy_link_hint: Добавляет действие "Копировать ссылку" в меню сообщения
+anti_delete_title: Антиудаление
+anti_delete_enabled: Сохранять удалённые сообщения
+anti_delete_hint: Сохраняет текст удалённых сообщений в cloudygram_exports/deleted.txt
+anti_delete_saved: Удалённое сообщение сохранено
+auto_delete_title: Автоудаление
+auto_delete_enabled: Автоудалять отправленные сообщения
+auto_delete_hint: Отправленные сообщения самоуничтожатся через указанное время
+auto_delete_seconds: Задержка (секунды)
+auto_delete_seconds_hint: Время до удаления отправленного сообщения
+chat_export_title: Экспорт чата
+chat_export_action: Экспорт чата
+chat_export_started: Экспорт сообщений чата...
+chat_export_done: Экспорт сохранён (путь скопирован)
+chat_export_limit: Лимит сообщений
+chat_export_limit_hint: Сколько последних сообщений экспортировать

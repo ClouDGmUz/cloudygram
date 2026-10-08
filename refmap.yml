@@ -1,0 +1,5 @@
+metainfo: Cloudygram/meta.yml
+main: Cloudygram/src/main.py
+assets: Cloudygram/res
+strings: Cloudygram/locales
+elyxbuilder: Cloudygram/.elyxbuilder
