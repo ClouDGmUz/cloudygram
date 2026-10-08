@@ -1,9 +1,13 @@
 from android_utils import copy_to_clipboard
 from base_plugin import MenuItemData, MenuItemType
 from elyx import strings
+from ui.bulletin import BulletinHelper
 from ui.settings import Header, Text
 
 from .base import Feature
+
+# Channel/supergroup dialog ids are -(1000000000000 + channel_id).
+CHANNEL_ID_OFFSET = 1000000000000
 
 
 class CopyLinkFeature(Feature):
@@ -30,33 +34,32 @@ class CopyLinkFeature(Feature):
         link = self._build_link(ctx)
         if link:
             copy_to_clipboard(link)
+        else:
+            BulletinHelper.show_error(strings("copy_link_unavailable"))
 
     def _build_link(self, ctx):
+        # Only channels/supergroups have message links; private chats and
+        # basic groups don't, so those return None.
         try:
             message = ctx.get("message")
             if message is None:
                 return None
             msg_id = message.getId()
 
-            username = None
+            dialog_id = None
+            try:
+                dialog_id = int(message.getDialogId())
+            except Exception:
+                raw = ctx.get("dialog_id") or ctx.get("dialogId")
+                dialog_id = int(raw) if raw else None
+            if dialog_id is None or dialog_id > -CHANNEL_ID_OFFSET:
+                return None
+
             chat = ctx.get("chat")
-            user = ctx.get("user")
-            if chat is not None:
-                username = getattr(chat, "username", None)
-            elif user is not None:
-                username = getattr(user, "username", None)
+            username = getattr(chat, "username", None) if chat is not None else None
             if username:
                 return f"https://t.me/{username}/{msg_id}"
-
-            dialog_id = ctx.get("dialog_id") or ctx.get("dialogId") or ctx.get("chatId")
-            if not dialog_id:
-                return None
-            internal = int(dialog_id)
-            if internal < 0:
-                internal = -internal
-            if str(internal).startswith("100"):
-                internal = int(str(internal)[3:])
-            return f"https://t.me/c/{internal}/{msg_id}"
+            return f"https://t.me/c/{-dialog_id - CHANNEL_ID_OFFSET}/{msg_id}"
         except Exception as e:
             self.host.logger.debug(f"copy_link: {e}")
             return None

@@ -2,12 +2,11 @@ from typing import Any, List
 
 from android_utils import copy_to_clipboard
 from base_plugin import BasePlugin, HookResult, HookStrategy
-from elyx import assets, settings, strings
-from ui.settings import Header, Input, Switch, Text
+from elyx import assets, strings
+from ui.settings import Header, Switch, Text
 
 from .compact_bottom_nav import CompactBottomNav
 from .features.registry import FEATURES
-from .greeting import build_greeting
 
 DEVELOPER = "@cloudgmuz"
 CHANNEL_URL = "https://t.me/cloudyextera"
@@ -235,7 +234,6 @@ class CloudygramPlugin(BasePlugin):
         return HookResult()
 
     def create_settings(self) -> List[Any]:
-        name = settings.get("name", "Alice")
         status, version = self._cloudylib_status()
         features_subtext = strings("features_hint")
         features_red = False
@@ -244,18 +242,6 @@ class CloudygramPlugin(BasePlugin):
             features_red = True
         return [
             Header(text=strings("settings_title")),
-            Input(
-                key="name",
-                text=strings("name_label"),
-                subtext=strings("name_hint"),
-                default="Alice",
-                icon="msg_edit",
-            ),
-            Text(
-                text=build_greeting(name),
-                subtext="This row is generated from two project files.",
-                icon="msg_info",
-            ),
             Text(
                 text=strings("compact_nav_title"),
                 subtext=strings("compact_nav_folder_hint"),
