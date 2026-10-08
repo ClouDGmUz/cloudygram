@@ -1,13 +1,15 @@
 from typing import Any, List
 
-from android_utils import copy_to_clipboard
+from android_utils import copy_to_clipboard, run_on_ui_thread
 from base_plugin import BasePlugin, HookResult, HookStrategy
+from client_utils import run_on_queue
 from elyx import assets, strings
 from ui.settings import Header, Switch, Text
 
 from .compact_bottom_nav import CompactBottomNav
 from .features.registry import FEATURES
 
+PLUGIN_ID = "cloudygram"
 DEVELOPER = "@cloudgmuz"
 CHANNEL_URL = "https://t.me/cloudyextera"
 UPDATE_CHANNEL_ID = 4466296728
@@ -194,12 +196,27 @@ class CloudygramPlugin(BasePlugin):
         return "ok", version
 
     def _reload_plugin(self, _=None):
-        try:
-            import cloudylib
+        # Toggle the plugin off/on through the app's controller: that re-runs
+        # on_plugin_load (picking up feature switches) and lets the app clear
+        # every hook/menu item we registered. cloudylib's reload_plugin can't be
+        # used here - it reloads from "<plugins_dir>/cloudygram.py", which
+        # doesn't exist for a packaged (eaf) plugin, leaving us disabled.
+        logger = self.logger
 
-            cloudylib.PluginUtils.reload_plugin("cloudygram")
-        except Exception as e:
-            self.logger.error(f"[reload] {e}")
+        def restart():
+            try:
+                from com.exteragram.messenger.plugins import PluginsController
+
+                controller = PluginsController.getInstance()
+                controller.setPluginEnabled(PLUGIN_ID, False, None)
+                controller.setPluginEnabled(PLUGIN_ID, True, None)
+            except Exception as e:
+                logger.error(f"[reload] {e}")
+                from ui.bulletin import BulletinHelper
+
+                run_on_ui_thread(lambda: BulletinHelper.show_error(strings("reload_failed")))
+
+        run_on_queue(restart)
 
     def pre_request_hook(self, request_name, account, request):
         return self._dispatch("pre_request_hook", request_name, account, request)
@@ -291,16 +308,15 @@ class CloudygramPlugin(BasePlugin):
                     red=True,
                 )
             )
-        if status == "ok":
-            items.append(
-                Text(
-                    text=strings("reload_now"),
-                    subtext=strings("reload_now_hint"),
-                    icon="msg_photo_switch2",
-                    accent=True,
-                    on_click=self._reload_plugin,
-                )
+        items.append(
+            Text(
+                text=strings("reload_now"),
+                subtext=strings("reload_now_hint"),
+                icon="msg_photo_switch2",
+                accent=True,
+                on_click=self._reload_plugin,
             )
+        )
         for spec in FEATURES:
             fid = spec["id"]
             items.append(

@@ -21,6 +21,7 @@ feature_enable: Enable feature
 feature_reload_note: Reload the plugin to apply the change
 reload_now: Reload plugin
 reload_now_hint: Apply feature changes now
+reload_failed: Couldn't reload the plugin — toggle it off and on in the plugin list
 feature_credit: Original code by
 feature_endless_folders: Endless folders scroll
 feature_user_info_saver: User info saver
