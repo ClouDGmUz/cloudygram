@@ -60,6 +60,7 @@ read_receipts_title: Отчёты о прочтении
 hide_read_receipts: Не отправлять отчёты о прочтении
 hide_read_receipts_hint: Отмечать сообщения локально, не уведомляя отправителя
 copy_link_title: Копировать ссылку на сообщение
+copy_link_action: Копировать ссылку
 copy_link_hint: Добавляет действие "Копировать ссылку" в меню сообщения
 anti_delete_title: Антиудаление
 anti_delete_enabled: Сохранять удалённые сообщения
