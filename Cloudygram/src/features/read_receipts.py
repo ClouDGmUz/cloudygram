@@ -8,6 +8,8 @@ READ_REQUESTS = (
     "TL_messages_readHistory",
     "TL_messages_readMessageContents",
     "TL_messages_readEncryptedHistory",
+    "TL_channels_readHistory",
+    "TL_channels_readMessageContents",
 )
 
 

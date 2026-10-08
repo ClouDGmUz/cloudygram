@@ -1,9 +1,6 @@
 plugin_description: "Набор функций Cloudygram. Включает CompactBottomNav (@YouRooni), плагины @zwylair (EndlessFoldersScroll, UserInfoSaver, AdminTools, NoForwardLimit) и Recent Actions+ от @anivplugins."
 loaded: Cloudygram загружен
-greeting: "Привет, {name}!"
-settings_title: Приветствие
-name_label: Имя
-name_hint: Кого нужно поприветствовать?
+settings_title: Настройки
 compact_nav_title: Нижняя панель
 compact_nav_folder_hint: Параметры компактной панели навигации
 compact_nav_enabled: Включить компактную нижнюю панель
@@ -24,6 +21,7 @@ feature_enable: Включить функцию
 feature_reload_note: Перезагрузите плагин, чтобы применить изменения
 reload_now: Перезагрузить плагин
 reload_now_hint: Применить изменения функций сейчас
+reload_failed: Не удалось перезагрузить плагин — выключите и включите его в списке плагинов
 feature_credit: Оригинальный код от
 feature_endless_folders: Бесконечная прокрутка папок
 feature_user_info_saver: Сохранение информации о пользователе
@@ -60,6 +58,7 @@ read_receipts_title: Отчёты о прочтении
 hide_read_receipts: Не отправлять отчёты о прочтении
 hide_read_receipts_hint: Отмечать сообщения локально, не уведомляя отправителя
 copy_link_title: Копировать ссылку на сообщение
+copy_link_unavailable: У этого чата нет ссылок на сообщения
 copy_link_action: Копировать ссылку
 copy_link_hint: Добавляет действие "Копировать ссылку" в меню сообщения
 anti_delete_title: Антиудаление

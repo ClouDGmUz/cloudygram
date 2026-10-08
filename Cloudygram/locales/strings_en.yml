@@ -1,9 +1,6 @@
 plugin_description: "Cloudygram feature pack. Bundles CompactBottomNav (@YouRooni), @zwylair's EndlessFoldersScroll, UserInfoSaver, AdminTools, NoForwardLimit, and @anivplugins' Recent Actions+."
 loaded: Cloudygram loaded
-greeting: "Hello, {name}!"
-settings_title: Greeting
-name_label: Name
-name_hint: Who should be greeted?
+settings_title: Settings
 compact_nav_title: Compact bottom nav
 compact_nav_folder_hint: Compact navigation bar options
 compact_nav_enabled: Enable compact bottom nav
@@ -24,6 +21,7 @@ feature_enable: Enable feature
 feature_reload_note: Reload the plugin to apply the change
 reload_now: Reload plugin
 reload_now_hint: Apply feature changes now
+reload_failed: Couldn't reload the plugin — toggle it off and on in the plugin list
 feature_credit: Original code by
 feature_endless_folders: Endless folders scroll
 feature_user_info_saver: User info saver
@@ -60,6 +58,7 @@ read_receipts_title: Read receipts
 hide_read_receipts: Don't send read receipts
 hide_read_receipts_hint: Mark messages locally without notifying the sender
 copy_link_title: Copy message link
+copy_link_unavailable: This chat has no message links
 copy_link_action: Copy link
 copy_link_hint: Adds a "Copy link" action to the message menu
 anti_delete_title: Anti-delete
