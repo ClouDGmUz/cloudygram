@@ -190,6 +190,14 @@ class CloudygramPlugin(BasePlugin):
                 pass
         return "ok", version
 
+    def _reload_plugin(self, _=None):
+        try:
+            import cloudylib
+
+            cloudylib.PluginUtils.reload_plugin("cloudygram")
+        except Exception as e:
+            self.logger.error(f"[reload] {e}")
+
     def pre_request_hook(self, request_name, account, request):
         return self._dispatch("pre_request_hook", request_name, account, request)
 
@@ -288,6 +296,16 @@ class CloudygramPlugin(BasePlugin):
                     subtext=strings("cloudylib_outdated_hint", version=CLOUDYLIB_MIN_VERSION),
                     icon="msg_error",
                     red=True,
+                )
+            )
+        if status == "ok":
+            items.append(
+                Text(
+                    text=strings("reload_now"),
+                    subtext=strings("reload_now_hint"),
+                    icon="msg_photo_switch2",
+                    accent=True,
+                    on_click=self._reload_plugin,
                 )
             )
         for spec in FEATURES:

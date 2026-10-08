@@ -22,6 +22,8 @@ features_hint: Enable and configure bundled features
 feature_configure_hint: Tap to configure
 feature_enable: Enable feature
 feature_reload_note: Reload the plugin to apply the change
+reload_now: Reload plugin
+reload_now_hint: Apply feature changes now
 feature_credit: Original code by
 feature_endless_folders: Endless folders scroll
 feature_user_info_saver: User info saver

@@ -22,6 +22,8 @@ features_hint: Включение и настройка встроенных ф�
 feature_configure_hint: Нажмите, чтобы настроить
 feature_enable: Включить функцию
 feature_reload_note: Перезагрузите плагин, чтобы применить изменения
+reload_now: Перезагрузить плагин
+reload_now_hint: Применить изменения функций сейчас
 feature_credit: Оригинальный код от
 feature_endless_folders: Бесконечная прокрутка папок
 feature_user_info_saver: Сохранение информации о пользователе
