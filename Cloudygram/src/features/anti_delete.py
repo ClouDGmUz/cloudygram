@@ -29,20 +29,22 @@ class AntiDeleteFeature(Feature):
         try:
             if any(name in update_name for name in DELETE_UPDATES):
                 self._handle_delete(account, update)
-            else:
+            elif any(name in update_name for name in NEW_UPDATES):
                 self._handle_new(account, update)
         except Exception as e:
             self.host.logger.debug(f"anti_delete: {e}")
         return HookResult()
 
     def _handle_new(self, account, update):
+        # update.message is a raw TLRPC.Message: plain `id` / `message` fields.
         message = getattr(update, "message", None)
         if message is None:
             return
-        owner = getattr(message, "messageOwner", None)
-        text = getattr(owner, "message", None) if owner is not None else None
+        text = getattr(message, "message", None)
         if text:
-            self._cache[(int(account), int(message.getId()))] = str(text)
+            peer = getattr(message, "peer_id", None)
+            channel_id = int(getattr(peer, "channel_id", 0) or 0) if peer is not None else 0
+            self._cache[(int(account), channel_id, int(message.id))] = str(text)
             if len(self._cache) > 2000:
                 self._cache.pop(next(iter(self._cache)))
 
@@ -50,9 +52,11 @@ class AntiDeleteFeature(Feature):
         ids = getattr(update, "messages", None)
         if ids is None:
             return
+        # Channel message ids are per-channel; private/basic-group ids use channel 0.
+        channel_id = int(getattr(update, "channel_id", 0) or 0)
         found = False
         for index in range(ids.size()):
-            text = self._cache.pop((int(account), int(ids.get(index))), None)
+            text = self._cache.pop((int(account), channel_id, int(ids.get(index))), None)
             if text:
                 self._deleted.append(text)
                 found = True

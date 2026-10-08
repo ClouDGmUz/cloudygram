@@ -60,6 +60,7 @@ read_receipts_title: Read receipts
 hide_read_receipts: Don't send read receipts
 hide_read_receipts_hint: Mark messages locally without notifying the sender
 copy_link_title: Copy message link
+copy_link_action: Copy link
 copy_link_hint: Adds a "Copy link" action to the message menu
 anti_delete_title: Anti-delete
 anti_delete_enabled: Keep deleted messages

@@ -11,7 +11,7 @@ from .greeting import build_greeting
 
 DEVELOPER = "@cloudgmuz"
 CHANNEL_URL = "https://t.me/cloudyextera"
-UPDATE_CHANNEL_ID = -1004466296728
+UPDATE_CHANNEL_ID = 4466296728
 UPDATE_MESSAGE_ID = 4
 
 CLOUDYLIB_MIN_VERSION = max(
@@ -24,6 +24,7 @@ class CloudygramPlugin(BasePlugin):
     def on_plugin_load(self):
         self.nav = CompactBottomNav(self)
         self._features = {}
+        self._active = set()
         self.logger.info(strings("loaded"))
 
         wave_icon = assets.wave
@@ -146,11 +147,14 @@ class CloudygramPlugin(BasePlugin):
             feature.on_plugin_load()
         except Exception as e:
             self.logger.error(f"[feature] {fid} load failed: {e}")
+            return
+        self._active.add(fid)
 
     def _stop_feature(self, fid):
         feature = self._features.get(fid)
         if feature is None:
             return
+        self._active.discard(fid)
         try:
             feature.on_plugin_unload()
         except Exception as e:
@@ -214,7 +218,10 @@ class CloudygramPlugin(BasePlugin):
         return self._dispatch("on_updates_hook", container_name, account, updates)
 
     def _dispatch(self, method_name, *args):
-        for feature in getattr(self, "_features", {}).values():
+        active = getattr(self, "_active", set())
+        for fid, feature in getattr(self, "_features", {}).items():
+            if fid not in active or not self.get_setting(f"feature_{fid}_enabled", False):
+                continue
             fn = getattr(type(feature), method_name, None)
             if fn is None:
                 continue
